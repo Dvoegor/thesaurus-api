@@ -24,10 +24,12 @@ app.use(
 
 const indexRoute = require("./routes/index");
 const editRoute = require("./routes/edit");
+const createRoute = require("./routes/create");
 const loginRoute = require("./routes/login");
 
 app.use("/", indexRoute);
 app.use("/edit", editRoute);
+app.use("/create", createRoute);
 app.use("/login", loginRoute);
 
 app.use(function (req, res, next) {
