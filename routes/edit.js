@@ -33,7 +33,7 @@ router.post("/:id", authorization, async (req, res) => {
   });
   attributeQuery = attributeQuery.slice(0, attributeQuery.length - 2);
 
-  const [rows, fields, err] = await pool.query(
+  const [rows] = await pool.query(
     `UPDATE crossWords ${attributeQuery} WHERE id=${id}`
   );
 
