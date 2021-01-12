@@ -1,6 +1,7 @@
 const express = require("express");
 const pool = require("../pool");
 const authorization = require("../authorization");
+const logs = require("../logs");
 const createError = require("http-errors");
 const router = express.Router();
 
@@ -40,6 +41,7 @@ router.post("/:id", authorization, async (req, res) => {
   if (!rows.affectedRows) {
     res.status(500).send(createError(500, "Ошибка редактирования записи"));
   } else {
+    logs(1, req);
     res.status(200).send({ message: "Запись обновлена" });
   }
 });

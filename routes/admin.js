@@ -6,7 +6,8 @@ const exportFromJSON = require('export-from-json')
 const router = express.Router();
 
 router.get("/", authorization, async (req, res) => {
-
+    const [rows] = await pool.query(`SELECT * FROM logs`);
+    res.status(200).send(rows.reverse())
 });
 
 router.get("/:fileFormat", authorization, async (req, res) => {
