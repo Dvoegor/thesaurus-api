@@ -27,12 +27,14 @@ const editRoute = require("./routes/edit");
 const createRoute = require("./routes/create");
 const deleteRoute = require("./routes/delete");
 const loginRoute = require("./routes/login");
+const adminRoute = require("./routes/admin");
 
 app.use("/", indexRoute);
 app.use("/edit", editRoute);
 app.use("/create", createRoute);
 app.use("/delete", deleteRoute);
 app.use("/login", loginRoute);
+app.use("/admin", adminRoute);
 
 app.use(function (req, res, next) {
   next(res.status(404).send(createError(404, "Такая страница не существует")));
