@@ -83,4 +83,9 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/logout", (req, res) => {
+    req.session.success = false;
+    res.status(200).redirect("/");
+  });
+
 module.exports = router;
