@@ -19,10 +19,10 @@ router.post("/", async (req, res) => {
   if (rows.length) {
     req.session.success = true;
     req.session.email = rows[0].email;
-    res.status(200).redirect("/");
+    res.status(200).send(req.session.success)
   } else {
     req.session.success = false;
-    res.status(500).send(createError(500, "Ошибка пользователя"));
+    res.status(200).send(req.session.success);
   }
 });
 

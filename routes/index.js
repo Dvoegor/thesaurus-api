@@ -1,6 +1,7 @@
 const express = require("express");
 const pool = require("../pool");
 const router = express.Router();
+const arrayFillWithNumber = require("array-fill-with-number");
 
 router.get("/", async (req, res) => {
   const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -61,7 +62,7 @@ router.get("/", async (req, res) => {
   const dataCount = count[0][0]["COUNT(*)"];
 
   const records = ([rows] = await pool.query(
-    `SELECT * FROM crossWords ${attributeQuery} LIMIT ${startIndex}, ${limit} ${sortBy}`
+    `SELECT * FROM crossWords ${attributeQuery} ${sortBy} LIMIT ${startIndex}, ${limit}`
   ));
   const dataRecords = records[0];
 
@@ -70,12 +71,18 @@ router.get("/", async (req, res) => {
   ));
   const dbFoundRecords = foundRecords[0][0]["COUNT(*)"];
 
+  const pageCount = Math.ceil(dbFoundRecords / 50);
+
+  const pageArr = arrayFillWithNumber(pageCount, 1);
+
   if (!dataRecords) {
     res.status(404).send(createError(500, "Нет доступа к записям"));
   } else {
     res.send({
       dbSize: dataCount,
       dbFoundRecords: dbFoundRecords,
+      pageCount: pageCount,
+      pageArr: pageArr,
       methods: dataMethods,
       subjectAreas: dataSubjectAreas,
       records: dataRecords,
@@ -84,8 +91,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-    req.session.success = false;
-    res.status(200).redirect("/");
-  });
+  req.session.success = false;
+  res.status(200).redirect("/");
+});
 
 module.exports = router;

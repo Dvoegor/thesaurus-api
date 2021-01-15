@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Dvoegor/thesaurus-api#readme",
   "dependencies": {
+    "array-fill-with-number": "^0.1.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
