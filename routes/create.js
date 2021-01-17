@@ -10,7 +10,7 @@ router.get("/", authorization, async (req, res) => {
 });
 
 router.post("/", authorization, async (req, res) => {
-  const [
+  let [
     rows,
   ] = await pool.query(`INSERT INTO crossWords (question,answer,function,method,subjectArea)
                 VALUES (
@@ -20,11 +20,14 @@ router.post("/", authorization, async (req, res) => {
                 '${req.body.method}',
                 '${req.body.subjectArea}')
                 `);
-
   if (!rows.affectedRows) {
     res.status(500).send(createError(500, "Ошибка добавления записи"));
   } else {
-    logs(2, req);
+    const lastRecord = ([rows] = await pool.query(
+      `SELECT id FROM crossWords WHERE id=(SELECT max(id) FROM crossWords)`
+    ));
+    const lastRecordId = lastRecord[0][0].id;
+    logs(2, req, lastRecordId);
     res.status(200).send({ message: "Запись добавлена" });
   }
 });

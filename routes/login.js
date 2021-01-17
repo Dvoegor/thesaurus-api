@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
   if (rows.length) {
     req.session.success = true;
     req.session.email = rows[0].email;
-    res.status(200).send(req.session.success)
+    res.status(200).send({ success: req.session.success, email: req.session.email })
   } else {
     req.session.success = false;
     res.status(200).send(req.session.success);
